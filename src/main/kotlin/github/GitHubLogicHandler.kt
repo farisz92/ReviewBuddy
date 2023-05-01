@@ -17,7 +17,8 @@ class GitHubLogicHandler {
             ActionType.REVIEW_REQUESTED -> slackHelper.sendMessage(mappedMessage)
             ActionType.ASSIGNED -> slackHelper.sendMessage(mappedMessage)
             ActionType.SUBMITTED ->  slackHelper.updateMessage(mappedMessage)
-            else -> {}
+            ActionType.REVIEW_REQUEST_REMOVED -> slackHelper.deleteMessage(mappedMessage, true)
+            else -> slackHelper
         }
     }
 

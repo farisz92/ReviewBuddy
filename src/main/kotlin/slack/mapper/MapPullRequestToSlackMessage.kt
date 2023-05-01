@@ -1,9 +1,7 @@
 package slack.mapper
 
-import github.model.ActionType
-import github.model.GitHubEvent
-import github.model.PullRequest
-import github.model.ReviewState
+import github.model.*
+import slack.TeamInfo
 import slack.model.Emoji
 import slack.model.SlackMessage
 import java.time.LocalDateTime
@@ -22,7 +20,9 @@ class MapPullRequestToSlackMessage : Mapper<GitHubEvent, SlackMessage> {
             reviewState = mapReviewState(from.review?.state),
             reviewerName = from.review?.reviewer?.login,
             reviewerUrl = from.review?.reviewer?.url,
-            reviewedTimeStamp = from.review?.reviewedAt?.let { mapIsoTime(it) }
+            reviewedTimeStamp = from.review?.reviewedAt?.let { mapIsoTime(it) },
+            reviewingTeams = from.pullRequest.team?.let { it.map { gitHubTeam -> mapTeamInfo(gitHubTeam) } },
+            teamRemoved = from.teamToRemove?.let { mapTeamInfo(it) }
         )
     }
 
@@ -57,6 +57,13 @@ class MapPullRequestToSlackMessage : Mapper<GitHubEvent, SlackMessage> {
                 }
             }
             else -> null
+        }
+    }
+
+    private fun mapTeamInfo(gitHubTeams: GitHubTeam) : TeamInfo {
+        return when (gitHubTeams.name) {
+            TeamInfo.TeamOne().name -> TeamInfo.TeamOne()
+            else -> TeamInfo.TeamTwo()
         }
     }
 }

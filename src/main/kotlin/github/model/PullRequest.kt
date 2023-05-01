@@ -29,5 +29,6 @@ data class PullRequest(
     @SerializedName("created_at") val createdTimeStamp: String,
     @SerializedName("updated_at") val updatedTimeStamp: String,
     val merged: Boolean,
-    @SerializedName("mergeable_state") val mergeableState: MergeableState
+    @SerializedName("mergeable_state") val mergeableState: MergeableState,
+    @SerializedName("requested_teams") val team: List<GitHubTeam>?
 )

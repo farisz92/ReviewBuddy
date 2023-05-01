@@ -1,5 +1,7 @@
 package slack.model
 
+import slack.TeamInfo
+
 enum class Emoji(val slackCode: String) {
     REVIEW_REQUIRED(":eyes:"),
     COMMENTED(":speech_balloon:"),
@@ -18,7 +20,9 @@ data class SlackMessage (
     val reviewState: String? = "",
     val reviewerName: String? = "",
     val reviewerUrl: String? = "",
-    val reviewedTimeStamp: String? = ""
+    val reviewedTimeStamp: String? = "",
+    val reviewingTeams: List<TeamInfo>? = null,
+    val teamRemoved: TeamInfo? = null
 ) {
     fun getNewMessage() = "${emoji?.slackCode ?: ""} <$prUrl|$prTitle> $mainMessage <$authorUrl|$authorName> on $createdTimeStamp"
     fun getUpdatedMessage() = "${emoji?.slackCode ?: ""} <$prUrl|$prTitle> $mainMessage <$authorUrl|$authorName> on $createdTimeStamp - $reviewState <$reviewerUrl|$reviewerName> on $reviewedTimeStamp"

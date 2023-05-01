@@ -7,6 +7,7 @@ enum class ActionType {
     @SerializedName("opened") OPENED,
     @SerializedName("closed") CLOSED,
     @SerializedName("review_requested") REVIEW_REQUESTED,
+    @SerializedName("review_request_removed") REVIEW_REQUEST_REMOVED,
     @SerializedName("assigned") ASSIGNED,
     @SerializedName("submitted") SUBMITTED,
     // This is to handle actions that haven't been considered yet
@@ -18,5 +19,6 @@ data class GitHubEvent (
     @SerializedName("pull_request") val pullRequest: PullRequest,
     @SerializedName("requested_reviewer") val reviewer: GitHubUser?,
     @SerializedName("review") val review: Review?,
-    @SerializedName("assignee") val assignee: GitHubUser?
+    @SerializedName("assignee") val assignee: GitHubUser?,
+    @SerializedName("requested_team") val teamToRemove: GitHubTeam?,
 )
